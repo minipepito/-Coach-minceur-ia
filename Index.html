@@ -1,32 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Coach Minceur IA</title>
-</head>
-<body>
-<h1>Coach Minceur IA</h1>
-
-<p>Ton assistant pour perdre du poids intelligemment.</p>
-
-<input id="age" placeholder="Âge" /><br><br>
-<input id="poids" placeholder="Poids (kg)" /><br><br>
-<input id="taille" placeholder="Taille (cm)" /><br><br>
-
-<button onclick="calculer()">Générer mon plan</button>
-
-<p id="resultat"></p>
-
 <script>
-function calculer() {
+async function calculer() {
 let age = document.getElementById("age").value;
 let poids = document.getElementById("poids").value;
 let taille = document.getElementById("taille").value;
 
-let calories = 10 * poids + 6.25 * taille - 5 * age - 200;
+document.getElementById("resultat").innerText =
+"Génération de ton plan IA...";
+
+let prompt =
+"Tu es un coach sportif expert en perte de poids. " +
+"Crée un plan personnalisé pour une personne de " +
+age + " ans, " + poids + " kg, " + taille +
+" cm. Donne calories, sport et conseils.";
+
+let response = await fetch("https://api.openai.com/v1/chat/completions", {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+"Authorization": "Bearer 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"
+},
+body: JSON.stringify({
+model: "gpt-4o-mini",
+messages: [
+{ role: "system", content: "Tu es un coach minceur expert." },
+{ role: "user", content: prompt }
+]
+})
+});
+
+let data = await response.json();
 
 document.getElementById("resultat").innerText =
-"Calories recommandées : " + Math.round(calories);
+data.choices[0].message.content;
 }
 </script>
-</body>
-</html>
