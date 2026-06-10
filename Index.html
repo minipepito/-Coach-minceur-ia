@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Coach Minceur IA</title>
+</head>
+<body>
+<h1>Coach Minceur IA</h1>
+
+<p>Ton assistant pour perdre du poids intelligemment.</p>
+
+<input id="age" placeholder="Âge" /><br><br>
+<input id="poids" placeholder="Poids (kg)" /><br><br>
+<input id="taille" placeholder="Taille (cm)" /><br><br>
+
+<button onclick="calculer()">Générer mon plan</button>
+
+<p id="resultat"></p>
+
+<script>
+function calculer() {
+let age = document.getElementById("age").value;
+let poids = document.getElementById("poids").value;
+let taille = document.getElementById("taille").value;
+
+let calories = 10 * poids + 6.25 * taille - 5 * age - 200;
+
+document.getElementById("resultat").innerText =
+"Calories recommandées : " + Math.round(calories);
+}
+</script>
+</body>
+</html>
